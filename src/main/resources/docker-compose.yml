@@ -24,6 +24,8 @@ services:
   kv-app-1:
     image: kv-app:1.0
     container_name: kv-app-1
+    environment:
+      - "SPRING_PROFILES_ACTIVE=cache"
     ports:
       - 8080:8080
       #- 8000:8000
@@ -34,6 +36,8 @@ services:
   kv-app-2:
     image: kv-app:1.0
     container_name: kv-app-2
+    environment:
+      - "SPRING_PROFILES_ACTIVE=cache"
     ports:
       - 8082:8080
       #- 8000:8000
