@@ -1,0 +1,50 @@
+version: "3"
+services:
+  kv-mongo:
+    image: mongo:latest
+    container_name: "kv-mongo"
+    ports:
+      - 27017:27017
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: "rabbitmq"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+  eureka:
+    image: eureka:1.0
+    container_name: "eureka"
+    ports:
+      - 8761:8761
+  kv-app-1:
+    image: kv-app:1.0
+    container_name: kv-app-1
+    ports:
+      - 8080:8080
+      #- 8000:8000
+    links:
+      - kv-mongo
+      - rabbitmq
+      - eureka
+  kv-app-2:
+    image: kv-app:1.0
+    container_name: kv-app-2
+    ports:
+      - 8082:8080
+      #- 8000:8000
+    links:
+      - kv-mongo
+      - rabbitmq
+      - eureka
+  ribbon:
+    image: ribbon:1.0
+    container_name: "ribbon"
+    ports:
+      - 80:80
+    links:
+      - eureka
