@@ -70,7 +70,7 @@ GET http://localhost/rm?k=some-key
 clear all
 GET http://localhost/clear
 
-# Update : Load Test using Jmeter
+# Load Test using Jmeter
 
 Load test can be run using maven command 
     
