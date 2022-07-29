@@ -70,3 +70,12 @@ GET http://localhost/rm?k=some-key
 clear all
 GET http://localhost/clear
 
+# Update : Load Test using Jmeter
+
+Load test can be run using maven command 
+    
+    `mvn jmeter:jmeter`
+
+results in csv can be seen at target/jmeter/results/<date>-kv-load-test.csv   
+
+
