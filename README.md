@@ -16,6 +16,9 @@ mongodb and rabbitmq are runtime external dependencies.
 
 user docker compose to start key-value microservice cluster, docker compose file is available at src/main/resources/docker-compose.yml
 
+Default profile is set as `SPRING_PROFILES_ACTIVE=cache` which stores key values in memory which is synched across nodes in cluster.
+You can remove this from docker compose to run the key-value service with mongo-db 
+
 Please follow start procedure to have clean startup as rabbitmq takes more time to boot
 
 1. `docker compose -f docker-compose.yml up -d kv-mongo`
