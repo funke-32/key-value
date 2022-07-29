@@ -3,27 +3,27 @@ package com.macrometa.kv.messaging;
 import com.macrometa.kv.config.MessageConfig.Operation;
 import com.macrometa.kv.model.KeyValue;
 import com.macrometa.kv.service.KeyValueCacheService;
-import org.springframework.amqp.core.FanoutExchange;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 
 import static com.macrometa.kv.config.MessageConfig.OPERATION_HEADER;
 
+@Slf4j
 public class CacheConsumer {
+
+    @Autowired
+    private Queue cacheQ;
 
     @Autowired
     private KeyValueCacheService keyValueCacheService;
 
-    @Autowired
-    private FanoutExchange exchange;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @RabbitListener(queues = "#{cacheQueue.name}")
-    public void receive(KeyValue keyValue, @Header(OPERATION_HEADER) Operation operation) {
+    @RabbitListener(queues = "#{cacheQ.getName()}")
+    public void receive(@Payload KeyValue keyValue, @Header(OPERATION_HEADER) Operation operation) {
+        log.info("message received message = {}, operation = {}", keyValue.toString(), operation.toString());
         receiveMsg(keyValue, operation);
     }
 

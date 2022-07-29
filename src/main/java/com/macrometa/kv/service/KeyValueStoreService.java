@@ -14,13 +14,14 @@ import java.util.Optional;
 
 @Profile("!cache")
 @Component
-public class KeyValueStoreService implements KeyValueService {
+public class KeyValueStoreService extends KeyValueService {
 
     @Autowired
     private KeyValueRepository repository;
 
     @Override
     public KeyValue set(KeyValue keyValue) {
+        validate(keyValue);
         return repository.save(keyValue);
     }
 
@@ -30,8 +31,15 @@ public class KeyValueStoreService implements KeyValueService {
     }
 
     @Override
-    public void remove(String key) {
-        repository.deleteById(key);
+    public KeyValue remove(String key) {
+
+        KeyValue keyValue = null;
+
+        if(repository.existsById(key)){
+            repository.deleteById(key);
+            keyValue = new KeyValue();
+        }
+        return keyValue;
     }
 
     @Override

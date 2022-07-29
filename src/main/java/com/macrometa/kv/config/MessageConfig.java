@@ -1,14 +1,10 @@
 package com.macrometa.kv.config;
 
 
-import com.macrometa.kv.messaging.CachePublisher;
 import com.macrometa.kv.messaging.CacheConsumer;
-import org.springframework.amqp.core.AnonymousQueue;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.beans.factory.annotation.Value;
+import com.macrometa.kv.messaging.CachePublisher;
+import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,25 +14,34 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class MessageConfig {
 
-    @Value("${fanout.exchange.name}")
-    private String fanoutName;
-
     public static final String OPERATION_HEADER = "operation";
+    public static final String FANOUT_EXCHANGE_NAME = "cachebalance.fanout";
     public enum Operation {ADD, REMOVE, CLEAR};
 
+    @Autowired
+    private AmqpAdmin amqpAdmin;
+
     @Bean
-    public FanoutExchange exchange() {
-        return new FanoutExchange(fanoutName);
+    public Queue cacheQ() {
+        Queue queue =  new AnonymousQueue();
+        amqpAdmin.declareQueue(queue);
+        return queue;
     }
 
     @Bean
-    public Queue cacheQueue() {
-        return new AnonymousQueue();
+    public FanoutExchange exchange(){
+        FanoutExchange fanoutExchange = new FanoutExchange(FANOUT_EXCHANGE_NAME, true, false);
+        amqpAdmin.declareExchange(fanoutExchange);
+        return fanoutExchange;
     }
 
     @Bean
-    public Binding binding(FanoutExchange fanout, Queue deleteQueue1) {
-        return BindingBuilder.bind(deleteQueue1).to(fanout);
+    public Binding binding(Queue cacheQ, FanoutExchange exchange) {
+        Binding binding = BindingBuilder
+                .bind(cacheQ)
+                .to(exchange);
+        amqpAdmin.declareBinding(binding);
+        return binding;
     }
 
     @Bean

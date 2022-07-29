@@ -18,7 +18,7 @@ import static com.macrometa.kv.config.MessageConfig.Operation.*;
 
 @Profile("cache")
 @Component
-public class KeyValueCacheService implements KeyValueService {
+public class KeyValueCacheService extends KeyValueService {
 
     private Map<String, KeyValue> keyValueCache = new ConcurrentHashMap<>();
 
@@ -27,6 +27,7 @@ public class KeyValueCacheService implements KeyValueService {
 
     @Override
     public KeyValue set(KeyValue keyValue) {
+        validate(keyValue);
         addInCache(keyValue);
         cachePublisher.publishMessage(keyValue, ADD);
         return keyValue;
@@ -38,9 +39,10 @@ public class KeyValueCacheService implements KeyValueService {
     }
 
     @Override
-    public void remove(String key) {
-        removeFromCache(key);
+    public KeyValue remove(String key) {
+        KeyValue keyValue = removeFromCache(key);
         cachePublisher.publishMessage(KeyValue.builder().key(key).build(), REMOVE);
+        return keyValue;
     }
 
 
@@ -64,6 +66,8 @@ public class KeyValueCacheService implements KeyValueService {
 
         if (toIndex > keyValueCache.size()) {
             toIndex = keyValueCache.size() - 1;
+        } else if(toIndex <= 0){
+            toIndex = 10;
         }
 
         if(!keyValueCache.isEmpty()) {
@@ -82,6 +86,8 @@ public class KeyValueCacheService implements KeyValueService {
 
         if (toIndex > keyValueCache.size()) {
             toIndex = keyValueCache.size() - 1;
+        } else if(toIndex <= 0){
+            toIndex = 10;
         }
 
         if(!keyValueCache.isEmpty()){
@@ -93,15 +99,29 @@ public class KeyValueCacheService implements KeyValueService {
 
     @Override
     public Collection<KeyValue> getAll(Integer page, Integer size) {
-        return null;
+        ArrayList<KeyValue> values = new ArrayList<>();
+        int fromIndex = size * page;
+        int toIndex = fromIndex + size;
+
+        if (toIndex > keyValueCache.size()) {
+            toIndex = keyValueCache.size() - 1;
+        } else if(toIndex <= 0){
+            toIndex = 10;
+        }
+
+        if(!keyValueCache.isEmpty()){
+            values.addAll(keyValueCache.values());
+            return values.subList(fromIndex, toIndex).stream().collect(Collectors.toList());
+        }
+        return CollectionUtils.EMPTY_COLLECTION;
     }
 
     public void addInCache(KeyValue keyValue) {
         keyValueCache.putIfAbsent(keyValue.getKey(), keyValue);
     }
 
-    public void removeFromCache(String key) {
-        keyValueCache.remove(key);
+    public KeyValue removeFromCache(String key) {
+        return keyValueCache.remove(key);
     }
 
     public void clearCache(){

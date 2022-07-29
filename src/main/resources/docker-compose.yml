@@ -4,7 +4,9 @@ services:
     image: mongo:latest
     container_name: "kv-mongo"
     ports:
-      - 27017:27017
+      - '27017:27017'
+    networks:
+      - key-value-net
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     container_name: "rabbitmq"
@@ -12,43 +14,44 @@ services:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=root
     ports:
-      # AMQP protocol port
       - '5672:5672'
-      # HTTP management UI
       - '15672:15672'
+    networks:
+      - key-value-net
   eureka:
     image: eureka:1.0
     container_name: "eureka"
     ports:
-      - 8761:8761
+      - '8761:8761'
+    networks:
+      - key-value-net
   kv-app-1:
-    image: kv-app:1.0
-    container_name: kv-app-1
-    environment:
-      - "SPRING_PROFILES_ACTIVE=cache"
-    ports:
-      - 8080:8080
-      #- 8000:8000
-    links:
-      - kv-mongo
-      - rabbitmq
-      - eureka
+      image: kv-app:1.0
+      container_name: kv-app-1
+      environment:
+        - "SPRING_PROFILES_ACTIVE=cache"
+      ports:
+        - '8080:8080'
+      networks:
+        - key-value-net
   kv-app-2:
     image: kv-app:1.0
     container_name: kv-app-2
     environment:
       - "SPRING_PROFILES_ACTIVE=cache"
     ports:
-      - 8082:8080
-      #- 8000:8000
-    links:
-      - kv-mongo
-      - rabbitmq
-      - eureka
+      - '8082:8080'
+      - '8000:8000'
+    networks:
+      - key-value-net
+
   ribbon:
     image: ribbon:1.0
     container_name: "ribbon"
     ports:
-      - 80:80
-    links:
-      - eureka
+      - '80:80'
+    networks:
+      - key-value-net
+networks:
+  key-value-net:
+    driver: bridge
