@@ -61,3 +61,9 @@ GET http://localhost/getKeys?page=0&size=10
 get all values
 GET http://localhost/getValues?page=0&size=10
 
+remove by key
+GET http://localhost/rm?k=some-key
+
+clear all
+GET http://localhost/clear
+
