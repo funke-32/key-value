@@ -18,16 +18,16 @@ user docker compose to start key-value microservice cluster, docker compose file
 
 Please follow start procedure to have clean startup as rabbitmq takes more time to boot
 
-1. docker compose -f docker-compose.yml up -d kv-mongo
-2. docker compose -f docker-compose.yml up -d rabbitmq
-3. docker compose -f docker-compose.yml up -d eureka
-4. docker compose -f docker-compose.yml up -d ribbon
+1. `docker compose -f docker-compose.yml up -d kv-mongo`
+2. `docker compose -f docker-compose.yml up -d rabbitmq`
+3. `docker compose -f docker-compose.yml up -d eureka`
+4. `docker compose -f docker-compose.yml up -d ribbon`
 
 5. instance 1 for key-value service running on 8080
-    docker compose -f docker-compose.yml up kv-app-1
+    `docker compose -f docker-compose.yml up kv-app-1`
     
     instance 2 for key-value service running on 8082
-    docker compose -f docker-compose.yml up kv-app-2
+    `docker compose -f docker-compose.yml up kv-app-2`
     
 This cluster will have two instances of key-value service. At the start of service, nodes will have status as STARTING in registry server
 
