@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Test Server</title>
+  <style>
+    body {
+      margin: 0 auto;
+      width: 50%;
+    }
+
+    /* CSS Element Selector */
+    button {
+      background-color: lightblue;
+    }
+
+    #sendEvent {
+      margin-bottom: 15px;
+    }
+
+    /* CSS Id Selector */
+    #addToCart {
+      background-color: lightgreen;
+    }
+
+    /* CSS Class Selector */
+    .customClass {
+      font-weight: bold;
+    }
+
+    /* CSS Group Selector */
+    h1,
+    h2 {
+      color: purple;
+      text-align: center;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Welcome to test page!</h1>
+  <div class="center">
+    <button id="sendEvent">Click me to send event!</button><br>
+  </div>
+  <h2>Form Submission</h2>
+  <form id="myForm" class="center">
+    <div style="margin-bottom: 15px">
+      <label for="fname">First name:</label>
+      <input type="text" id="fname" name="fname">
+    </div>
+    <div>
+      <label for="lname">Last name:</label>
+      <input type="text" id="lname" name="lname">
+    </div>
+    <div style="margin-top: 15px"><input type="submit" value="Submit"></div>
+  </form><br>
+  <h2>Ecommerce test</h2>
+  <div class="center" style="margin-bottom: 50px;">
+    <button id="purchase">Purchase!</button>
+    <button id="remarketingEvent">Remarketing!</button>
+  </div>
+  <h2>Product Catalog</h2>
+  <div class="center" style="margin-bottom: 50px;">
+    <div id="product1" style="display: inline-block; margin-right: 20px;">
+      <h3>Product 1</h3>
+      <p>Product description</p>
+      <button type="button" id="addToCart">Add to Cart</button>
+    </div>
+    <div id="product2" style="display: inline-block">
+      <h3>Product 2</h3>
+      <p>Product description</p>
+      <button type="button" id="addToCartProduct2">Add to Cart</button>
+    </div>
+  </div>
+  <h2>Apply Coupon</h2>
+  <form id="applyCouponForm" class="center" style="margin-bottom: 50px;">
+    <label for="coupon">Enter your coupon code:</label>
+    <input type="text" id="coupon" name="coupon">
+    <input type="submit" value="Apply Coupon">
+  </form>
+
+  
+  <!-- Examples of different CSS selectors -->
+
+  <script>
+    function init() {
+      fetch(`https://photoniqall.eng.macrometa.io/api/est/v1/tracker/inject-script`).then(e => e.text()).then(e => {
+        const { execute } = JSON.parse(e);
+        let t = document.createElement("script");
+        t.textContent = execute, document.body.appendChild(t), photoniqest.settings("pageview").then(() => { photoniqest.track("pageview") }).then(() => { photoniqest._processServerResponse({ pageVars: [], fetch: [], execute: [] }) })
+      }).catch(e => console.error("Error fetching injected code:", e))
+    }
+    init();
+  </script>
+
+  <!-- Additional Elements for Testing -->
+  <div class="center">
+    <button class="customClass">Click me (Custom Class)!</button>
+    <p>Universal Selector Example</p>
+  </div>
+</body>
+
+</html>
