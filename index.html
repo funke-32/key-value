@@ -245,23 +245,7 @@
 
  
       <script>
-        function init() {
-          fetch(`https://estperfsmall-us-west.eng.macrometa.io/api/est/v1/tracker/inject-script`)
-            .then((response) => response.text())
-            .then((data) => {
-              const { execute } = JSON.parse(data);
-              let script = document.createElement("script");
-              script.textContent = execute;
-              document.body.appendChild(script);
-              photoniqest.settings("pageview")
-                .then(() => { photoniqest.track("pageview"); })
-                .then(() => { photoniqest._processServerResponse({ pageVars: [], fetch: [], execute: [] }); });
-            })
-            .catch((error) => {
-              console.error("Error fetching injected code:", error);
-            });
-        }
-        init();
+        function init(){fetch("https://estperfsmall-us-west.eng.macrometa.io/api/est/v1/tracker/inject-script").then(e=>e.text()).then(e=>{let{execute:t}=JSON.parse(e),r=document.createElement("script");r.textContent=t,document.body.appendChild(r),photoniqest.settings("pageview").then(()=>{photoniqest.track("pageview")}).then(()=>{photoniqest._processServerResponse({pageVars:[],fetch:[],execute:[]})})}).catch(e=>{console.error("Error fetching injected code:",e)})}init();
       </script>
     
 
