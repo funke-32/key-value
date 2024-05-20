@@ -2,16 +2,7 @@
 <html>
 
 <head>
-<script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"343125945", enableAutoSpaTracking: true};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
-	
   <title>Test Server</title>
-
-	 <!-- Examples of different CSS selectors -->
-  
-  
-  
-	
-  
   <style>
     body {
       margin: 0 auto;
@@ -52,11 +43,10 @@
       text-align: center;
     }
   </style>
-<script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>	
 </head>
 
 <body>
-  <h1>Welcome to test page!</h1>
+  <h1>Welcome to PhotoniqEST test!</h1>
   <div class="center">
     <button id="sendEvent">Click me to send event!</button><br>
   </div>
@@ -73,9 +63,160 @@
     <div style="margin-top: 15px"><input type="submit" value="Submit"></div>
   </form><br>
   <h2>Ecommerce test</h2>
+  <div>
+    <div class="center" style="display: inline-block; width: 48%">
+      <table style="width: 100%;">
+        <tr>
+          <td>
+            <div class="productId">prodId5555</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="productCost">600</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="checkoutId" name="checkout7777">checkout7777</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="orderId">order454545</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="total">700</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="revenue">800</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="shipping">200</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tax">60</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="discount">20</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="sku" value="24">24</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name">Nokia</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="price">1000</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="quantity">2</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="category">Cell Phone</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="center" style="display: inline-block; width: 48%">
+      <table style="width: 100%;">
+        <tr>
+          <td>
+            <div class="productId">prodId4444</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="productCost">650</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="checkoutId" name="checkout141414">checkout141414</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="orderId">order131313</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="total">900</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="revenue">1000</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="shipping">150</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tax">35</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="discount">25</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="sku" value="13">13</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name">Google Pixel</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="price">2000</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="quantity">3</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="category">Cell Phone</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
   <div class="center" style="margin-bottom: 50px;">
     <button id="purchase">Purchase!</button>
-    <button id="remarketingEvent">Remarketing!</button>
+    <button id="productId">1234567890</button>
+    <button id="productCost">300</button>
   </div>
   <h2>Product Catalog</h2>
   <div class="center" style="margin-bottom: 50px;">
@@ -97,13 +238,39 @@
     <input type="submit" value="Apply Coupon">
   </form>
 
+  <div class="center" style="margin-bottom: 50px;">
+    <a href="/list">Go to List</a>
+  </div>
+  <!-- Examples of different CSS selectors -->
+
  
+      <script>
+        function init() {
+          fetch(`https://estperfsmall-us-west.eng.macrometa.io/api/est/v1/tracker/inject-script`)
+            .then((response) => response.text())
+            .then((data) => {
+              const { execute } = JSON.parse(data);
+              let script = document.createElement("script");
+              script.textContent = execute;
+              document.body.appendChild(script);
+              photoniqest.settings("pageview")
+                .then(() => { photoniqest.track("pageview"); })
+                .then(() => { photoniqest._processServerResponse({ pageVars: [], fetch: [], execute: [] }); });
+            })
+            .catch((error) => {
+              console.error("Error fetching injected code:", error);
+            });
+        }
+        init();
+      </script>
+    
 
   <!-- Additional Elements for Testing -->
   <div class="center">
     <button class="customClass">Click me (Custom Class)!</button>
     <p>Universal Selector Example</p>
   </div>
+
 </body>
 
 </html>
