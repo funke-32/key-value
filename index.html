@@ -245,7 +245,7 @@
 
   <script>
     function init() {
-      fetch('https://estperfsmall-us-west.eng.macrometa.io/api/est/v1/tracker/inject-script).then(e => e.text()).then(e => {
+      fetch("https://estperfsmall-us-west.eng.macrometa.io/api/est/v1/tracker/inject-script").then(e => e.text()).then(e => {
         const { execute } = JSON.parse(e);
         let t = document.createElement("script");
         t.textContent = execute, document.body.appendChild(t), photoniqest.settings("pageview").then(() => { photoniqest._processServerResponse({ pageVars: [], fetch: [], execute: [] }) })
